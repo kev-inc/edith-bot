@@ -8,6 +8,7 @@
  * Learn more at https://developers.cloudflare.com/workers/
  */
 
+import { genHelpMessage } from "./help";
 import {
   clearTask,
   createTask,
@@ -39,9 +40,11 @@ export default {
         const taskIndex = parseInt(taskNumber.substring(2));
         await clearTask(chatId, taskIndex);
       } else if (text === "/tasks") {
-      } else if (text === "/closedtaks") {
+      } else if (text === "/closedtasks") {
         await genClosedTasksMessage(chatId);
-      }
+      } else if (text === '/help' || text === '/start') {
+		await genHelpMessage(chatId)
+	  }
 
     } else {
       if ("forward_sender_name" in payload.message) {
