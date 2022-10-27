@@ -1,0 +1,11 @@
+name = "edith-bot"
+compatibility_date = "2022-10-27"
+
+main = "src/index.ts"
+
+kv_namespaces = [
+    { binding = "DB", id = "a0130d6969f24648a7247b8fa4772ecb" }
+]
+
+[vars]
+# - API_KEY
