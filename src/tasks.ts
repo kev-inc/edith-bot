@@ -43,7 +43,7 @@ export const genOpenTasksMessage = async (chatId: string) => {
       (task: { id: number; title: string; status: string }) =>
         `/T${task.id} ${task.title}`
     );
-  const message = `${openTasks.length} open tasks\n\n` + openTasks.join("\n");
+  const message = `*${openTasks.length} open tasks*\n\n` + openTasks.join("\n");
   await sendTelegramMessage(chatId, message);
 };
 
