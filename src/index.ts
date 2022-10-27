@@ -39,13 +39,15 @@ export default {
         const taskNumber = text.split(" ")[0];
         const taskIndex = parseInt(taskNumber.substring(2));
         await clearTask(chatId, taskIndex);
+		await genOpenTasksMessage(chatId);
       } else if (text === "/tasks") {
+		await genOpenTasksMessage(chatId);
       } else if (text === "/closedtasks") {
+		await genOpenTasksMessage(chatId);
         await genClosedTasksMessage(chatId);
       } else if (text === '/help' || text === '/start') {
 		await genHelpMessage(chatId)
 	  }
-
     } else {
       if ("forward_sender_name" in payload.message) {
         const senderName = payload.message.forward_sender_name;
@@ -56,8 +58,8 @@ export default {
       } else {
         await createTask(chatId, text);
       }
+	  await genOpenTasksMessage(chatId);
     }
-	await genOpenTasksMessage(chatId);
 
     return new Response("Hello World!");
   },
