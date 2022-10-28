@@ -1,8 +1,9 @@
-import { sendTelegramMessage } from "./telegram";
+import { editTelegramMessage, sendTelegramMessage } from "./telegram";
+import moment from "moment";
 
 let DB: any;
 
-export const setDB = (db: any) => DB = db;
+export const setDB = (db: any) => (DB = db);
 
 export const getAllTasks = async (chatId: string) => {
   let data = await DB.get(chatId);
@@ -18,15 +19,66 @@ export const createTask = async (chatId: string, title: string) => {
   await DB.put(chatId, JSON.stringify(tasks));
 };
 
-export const clearTask = async (chatId: string, taskId: number) => {
+export const clearTask = async (
+  chatId: string,
+  messageId: string,
+  taskId: number
+) => {
   const tasks = await getAllTasks(chatId);
   tasks[taskId]["status"] =
     tasks[taskId]["status"] === "OPEN" ? "CLOSED" : "OPEN";
   await DB.put(chatId, JSON.stringify(tasks));
-  await sendTelegramMessage(chatId, `T${taskId} ${tasks[taskId]['status'] === "OPEN" ? "reopened" : "closed"}`)
+  await editTelegramMessage(
+    chatId,
+    messageId,
+    `T${taskId} ${tasks[taskId]["status"] === "OPEN" ? "reopened" : "closed"}`
+  );
 };
 
-export const genOpenTasksMessage = async (chatId: string) => {
+export const setReminderTime = async (
+  chatId: string,
+  taskId: number,
+  reminderTime: number
+) => {
+  const tasks = await getAllTasks(chatId);
+  tasks[taskId]["reminderTime"] = reminderTime;
+  await DB.put(chatId, JSON.stringify(tasks));
+};
+
+export const clearReminder = async (chatId: string, taskId: number) => {
+  const tasks = await getAllTasks(chatId);
+  delete tasks[taskId]["reminderTime"];
+  await DB.put(chatId, JSON.stringify(tasks));
+};
+
+export const showTask = async (chatId: string, taskId: number) => {
+  const tasks = await getAllTasks(chatId);
+  const task = tasks[taskId];
+  let message = `/T${taskId}\n` + `*${task.title}*`;
+  if ("reminderTime" in task) {
+    const reminder = moment(task["reminderTime"]);
+    message += `\n⏰ ${reminder.fromNow()} \\(${reminder.format(
+      "DD MMM, ha"
+    )}\\)`;
+  }
+  const keyboard = {
+    inline_keyboard: [
+      [
+        "reminderTime" in task
+          ? { text: "⏰ Clear Reminder", callback_data: `clearreminder_${taskId}` }
+          : { text: "⏰ Set Reminder", callback_data: `setreminder_${taskId}` },
+      ],
+      [{ text: "✅ Close", callback_data: `close_${taskId}` }],
+      [{ text: "🏠 Back to tasks", callback_data: "tasks" }],
+    ],
+  };
+  await sendTelegramMessage(chatId, message, keyboard);
+};
+
+export const genOpenTasksMessage = async (
+  chatId: string,
+  messageId: string | null = null
+) => {
   const tasks = await getAllTasks(chatId);
   const openTasks = tasks
     .map(
@@ -41,10 +93,14 @@ export const genOpenTasksMessage = async (chatId: string) => {
     )
     .map(
       (task: { id: number; title: string; status: string }) =>
-        `/T${task.id} ${task.title}`
+        `/T${task.id} ${task.title} ${"reminderTime" in task ? "⏰" : ""}`
     );
   const message = `*${openTasks.length} open tasks*\n\n` + openTasks.join("\n");
-  await sendTelegramMessage(chatId, message);
+  if (messageId === null) {
+    await sendTelegramMessage(chatId, message);
+  } else {
+    await editTelegramMessage(chatId, messageId, message);
+  }
 };
 
 export const genClosedTasksMessage = async (chatId: string) => {
