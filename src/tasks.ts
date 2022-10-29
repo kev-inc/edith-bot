@@ -1,6 +1,6 @@
 import { editTelegramMessage, editTelegramMessageWithMenu, sendTelegramMessage, sendTelegramMessageWithMenu } from "./telegram";
 import moment from "moment";
-import { MENU_KEYBOARD } from "./constants";
+import { ASK_FOR_TASK, MENU_KEYBOARD } from "./constants";
 
 let DB: any;
 
@@ -15,8 +15,7 @@ export const getAllTasks = async (chatId: string) => {
 };
 
 export const askForTask = async (chatId: string) => {
-  const message = "Please enter the task"
-  await sendTelegramMessage(chatId, message, {force_reply: true})
+  await sendTelegramMessage(chatId, ASK_FOR_TASK, {force_reply: true})
 }
 
 export const createTask = async (chatId: string, title: string) => {

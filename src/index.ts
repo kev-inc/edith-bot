@@ -1,6 +1,6 @@
-import { NEW_REMINDER, NEW_TASK, VIEW_TASKS } from "./constants";
+import { ASK_FOR_REMINDER, ASK_FOR_TASK, NEW_REMINDER, NEW_TASK, VIEW_TASKS } from "./constants";
 import { genHelpMessage } from "./help";
-import { genAskReminderDateMessage, genAskReminderTimeMessage, genReminderClearMessage, genReminderSetMessage } from "./reminders";
+import { askForReminder, genAskReminderDateMessage, genAskReminderTimeMessage, genReminderClearMessage, genReminderSetMessage } from "./reminders";
 import {
   askForTask,
   clearReminder,
@@ -62,7 +62,12 @@ export default {
     } else if ("message" in payload) {
       const chatId: string = payload.message.chat.id;
       const text: string = payload.message.text;
-      if (text.startsWith("/")) {
+      if ('reply_to_message' in payload['message']) {
+        switch (payload['message']['reply_to_message']['text']) {
+          case ASK_FOR_TASK: await createTask(chatId, text)
+          break
+        }
+      } else if (text.startsWith("/")) {
         if (text.startsWith("/T")) {
           const taskNumber = text.split(" ")[0];
           const taskIndex = parseInt(taskNumber.substring(2));
@@ -80,7 +85,7 @@ export default {
       } else if (text === NEW_TASK) {
         await askForTask(chatId)
       } else if (text === NEW_REMINDER) {
-
+        await askForReminder(chatId)
       } else {
         if ("forward_sender_name" in payload.message) {
           const senderName = payload.message.forward_sender_name;
