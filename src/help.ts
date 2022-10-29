@@ -1,14 +1,13 @@
-import { sendTelegramMessage, sendTelegramMessageWithMenu } from "./telegram"
+import { NEW_REMINDER, NEW_TASK, VIEW_TASKS } from "./constants";
+import { sendTelegramMessageWithMenu } from "./telegram"
 
 export const genHelpMessage = async (chatId: string) => {
-    const message = '*Welcome\\. I am EDITH\\.*\n' +
-    '/tasks \\- _Get your list of open tasks_\n' + 
-    '/closedtasks \\- _Get your list of closed tasks_\n'
+    const message = '*Welcome\\. I am EDITH\\.*'
     const menu = {
         keyboard: [
-          ["View Tasks"],
-          ["Create New Task"],
-          ["Create New Reminder"],
+          [VIEW_TASKS],
+          [NEW_TASK],
+          [NEW_REMINDER],
         ],
       };
     await sendTelegramMessageWithMenu(chatId, message, menu)

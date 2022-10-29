@@ -1,3 +1,4 @@
+import { NEW_REMINDER, NEW_TASK, VIEW_TASKS } from "./constants";
 import { genHelpMessage } from "./help";
 import { genAskReminderDateMessage, genAskReminderTimeMessage, genReminderClearMessage, genReminderSetMessage } from "./reminders";
 import {
@@ -67,14 +68,18 @@ export default {
           await showTask(chatId, taskIndex);
           // await clearTask(chatId, taskIndex);
           // await genOpenTasksMessage(chatId);
-        } else if (text === "/tasks") {
-          await genOpenTasksMessage(chatId);
         } else if (text === "/closedtasks") {
           await genOpenTasksMessage(chatId);
           await genClosedTasksMessage(chatId);
         } else if (text === "/help" || text === "/start") {
           await genHelpMessage(chatId);
         }
+      } else if (text === VIEW_TASKS) {
+        await genOpenTasksMessage(chatId);
+      } else if (text === NEW_TASK) {
+        
+      } else if (text === NEW_REMINDER) {
+
       } else {
         if ("forward_sender_name" in payload.message) {
           const senderName = payload.message.forward_sender_name;
