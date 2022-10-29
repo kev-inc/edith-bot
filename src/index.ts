@@ -63,9 +63,8 @@ export default {
       const chatId: string = payload.message.chat.id;
       const text: string = payload.message.text;
       if ('reply_to_message' in payload['message']) {
-        switch (payload['message']['reply_to_message']['text']) {
-          case ASK_FOR_TASK: await createTask(chatId, text)
-          break
+        if (payload.message.reply_to_message.text === ASK_FOR_TASK) {
+          await createTask(chatId, text)
         }
       } else if (text.startsWith("/")) {
         if (text.startsWith("/T")) {
