@@ -88,7 +88,7 @@ export default {
           const senderName = payload.message.forward_from.first_name;
           await createTask(chatId, `(${senderName}) ${text}`);
         } else {
-          await createTask(chatId, text);
+          // await createTask(chatId, text);
         }
         await genOpenTasksMessage(chatId);
       }
