@@ -13,6 +13,11 @@ export const getAllTasks = async (chatId: string) => {
   return JSON.parse(data);
 };
 
+export const askForTask = async (chatId: string) => {
+  const message = "Please enter the task name!"
+  await sendTelegramMessage(chatId, message, {force_reply: true})
+}
+
 export const createTask = async (chatId: string, title: string) => {
   const tasks = await getAllTasks(chatId);
   tasks.push({ title, status: "OPEN" });
@@ -74,6 +79,8 @@ export const showTask = async (chatId: string, taskId: number) => {
   };
   await sendTelegramMessage(chatId, message, keyboard);
 };
+
+
 
 export const genOpenTasksMessage = async (
   chatId: string,

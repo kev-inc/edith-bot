@@ -2,6 +2,7 @@ import { NEW_REMINDER, NEW_TASK, VIEW_TASKS } from "./constants";
 import { genHelpMessage } from "./help";
 import { genAskReminderDateMessage, genAskReminderTimeMessage, genReminderClearMessage, genReminderSetMessage } from "./reminders";
 import {
+  askForTask,
   clearReminder,
   clearTask,
   createTask,
@@ -77,7 +78,7 @@ export default {
       } else if (text === VIEW_TASKS) {
         await genOpenTasksMessage(chatId);
       } else if (text === NEW_TASK) {
-        
+        await askForTask(chatId)
       } else if (text === NEW_REMINDER) {
 
       } else {
