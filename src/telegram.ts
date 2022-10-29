@@ -7,7 +7,7 @@ export const sendTelegramMessageWithMenu = async (chatId: string, message: strin
     chat_id: chatId,
     text: message,
     parse_mode: "MarkdownV2",
-    reply_markup: decodeURIComponent(JSON.stringify(menu))
+    reply_markup: decodeURIComponent(JSON.stringify({keyboard: menu}))
   })
   const url = `https://api.telegram.org/bot${API_KEY}/sendMessage?` + searchParams;
   return await sendMessage(url);
@@ -18,7 +18,7 @@ export const editTelegramMessageWithMenu = async (chatId: string, messageId: str
     chat_id: chatId,
     text: message,
     parse_mode: "MarkdownV2",
-    reply_markup: decodeURIComponent(JSON.stringify(menu))
+    reply_markup: decodeURIComponent(JSON.stringify({keyboard: menu}))
   })
   const url = `https://api.telegram.org/bot${API_KEY}/editMessageText?` + searchParams;
   return await sendMessage(url);
