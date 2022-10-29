@@ -13,6 +13,18 @@ export const sendTelegramMessageWithMenu = async (chatId: string, message: strin
   return await sendMessage(url);
 }
 
+export const editTelegramMessageWithMenu = async (chatId: string, messageId: string, message: string, menu: any) => {
+  const searchParams = new URLSearchParams({
+    chat_id: chatId,
+    text: message,
+    parse_mode: "MarkdownV2",
+    reply_markup: decodeURIComponent(JSON.stringify(menu))
+  })
+  const url = `https://api.telegram.org/bot${API_KEY}/editMessageText?` + searchParams;
+  return await sendMessage(url);
+}
+
+
 export const sendTelegramMessage = async (chatId: string, message: string, keyboard: any = null) => {
   const searchParams = new URLSearchParams({
     chat_id: chatId,
