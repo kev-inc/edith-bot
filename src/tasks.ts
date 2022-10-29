@@ -104,9 +104,13 @@ export const genOpenTasksMessage = async (
     );
   const message = `*${openTasks.length} open tasks*\n\n` + openTasks.join("\n");
   if (messageId === null) {
-    await sendTelegramMessageWithMenu(chatId, message, MENU_KEYBOARD);
+    await sendTelegramMessageWithMenu(chatId, message, decodeURIComponent(JSON.stringify({
+      keyboard: MENU_KEYBOARD
+    })) );
   } else {
-    await editTelegramMessageWithMenu(chatId, messageId, message, MENU_KEYBOARD);
+    await editTelegramMessageWithMenu(chatId, messageId, message,  decodeURIComponent(JSON.stringify({
+      keyboard: MENU_KEYBOARD
+    })) );
   }
 };
 
