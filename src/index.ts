@@ -71,7 +71,7 @@ const handleMessage = async (payload: any) => {
       await genClosedTasksMessage(chatId);
       break
     default:
-      if (text.startsWith("/T")) {
+      if (text && text.startsWith("/T")) {
         const taskNumber = text.split(" ")[0];
         const taskIndex = parseInt(taskNumber.substring(2));
         await showTask(chatId, taskIndex);
@@ -106,7 +106,7 @@ export default {
     setDB(env.DB);
     setApiKey(env.API_KEY);
     setTimezone()
-    
+
     const {method} = request
     if (method === "GET") {
       const {pathname} = new URL(request.url)
