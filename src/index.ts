@@ -85,8 +85,14 @@ const handleReplyToMessage = async (payload: any) => {
   const replyingText: string = payload.message.reply_to_message.text
 
   switch (replyingText) {
-    case ASK_FOR_TASK: await createTask(chatId, text)
+    case ASK_FOR_TASK: 
+      await createTask(chatId, text);
+      await genOpenTasksMessage(chatId);
       break;
+    case ASK_FOR_REMINDER:
+      const taskId = await createTask(chatId, text);
+      await genAskReminderDateMessage(chatId, null, taskId.toString())
+      break
   }
 }
 

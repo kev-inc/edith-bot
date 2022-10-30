@@ -3,8 +3,5 @@ import { sendTelegramMessageWithMenu } from "./telegram"
 
 export const genHelpMessage = async (chatId: string) => {
     const message = '*Welcome\\. I am EDITH\\.*'
-    const menu = {
-        keyboard: MENU_KEYBOARD
-      };
-    await sendTelegramMessageWithMenu(chatId, message, menu)
+    await sendTelegramMessageWithMenu(chatId, message, MENU_KEYBOARD)
 }
