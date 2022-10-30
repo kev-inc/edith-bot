@@ -10,6 +10,9 @@ const genNow = () => {
 }
 
 export const hasReminderPassed = (timestamp: string) => {
+    if (timestamp == null) {
+        return false
+    }
     const reminder = genReminderTimeUsingUnix(timestamp)
     const now = genNow()
     return (now >= reminder)  
