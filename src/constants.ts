@@ -15,8 +15,8 @@ export const SNOOZE_REMINDER = "Snooze"
 export const DISMISS_REMINDER = "Dismiss"
 
 export const REMINDER_KEYBOARD = [
-    [SNOOZE_REMINDER],
-    [DISMISS_REMINDER]
+    [{text: SNOOZE_REMINDER, callback_data: 0}],
+    [{text: DISMISS_REMINDER, callback_data: 0}]
 ]
 
 export const MENU_KEYBOARD = [
