@@ -72,6 +72,7 @@ export const sendReminders = async () => {
       const {title, status, reminderTime} = task
       const isOpen = status === "OPEN"
       const hasPassed = hasReminderPassed(reminderTime)
+      console.log(title, hasPassed)
       if (isOpen && hasPassed) {
         sendTelegramMessage(id, `🔔 /T${index} ${title} 🔔`, {inline_keyboard: REMINDER_KEYBOARD})
       }
