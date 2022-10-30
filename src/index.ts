@@ -12,6 +12,7 @@ import {
   showTask,
 } from "./tasks";
 import { setApiKey } from "./telegram";
+import { setTimezone } from "./utils";
 
 export interface Env {
   DB: KVNamespace;
@@ -104,6 +105,7 @@ export default {
   ): Promise<Response> {
     setApiKey(env.API_KEY);
     setDB(env.DB);
+    setTimezone()
     const payload: any = await request.json();
     console.log(payload);
     const { message, callback_query } = payload

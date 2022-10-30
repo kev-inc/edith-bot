@@ -1,15 +1,20 @@
 import moment from 'moment'
+import 'moment-timezone'
+
+export const setTimezone = () => {
+    moment.tz.setDefault('Asia/Singapore')
+}
 
 const genNow = () => {
-    return moment().utcOffset('+0800')
+    return moment()
 }
 
 export const genReminderTimeUsingString = (str: string, format: string) => {
-    return moment(str, format).utcOffset('+0800')
+    return moment(str, format)
 }
 
 export const genReminderTimeUsingUnix = (unixtime: string) => {
-    return moment(unixtime).utcOffset('+0800')
+    return moment(unixtime)
 }
 
 export const genDateKeyboard = (taskId: string) => {
