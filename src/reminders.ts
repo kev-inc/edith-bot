@@ -66,11 +66,11 @@ export const sendReminders = async () => {
   const dbkeys = await getDBKeys()
   const chatIds = dbkeys.keys
   console.log(chatIds)
-  chatIds.forEach(async chatId => {
+  for (const chatId of chatIds) {
     const id = chatId.name
     const tasks = await getAllTasks(id)
     console.log(id, tasks)
-    tasks.forEach((task: any, index: number) => {
+    for (const [index, task] of tasks.entries()) {
       const {title, status, reminderTime} = task
       const isOpen = status === "OPEN"
       const hasPassed = hasReminderPassed(reminderTime)
@@ -78,7 +78,7 @@ export const sendReminders = async () => {
       if (isOpen && hasPassed) {
         sendTelegramMessage(id, `🔔 /T${index} ${title} 🔔`, {inline_keyboard: REMINDER_KEYBOARD})
       }
-    })
-  })
+    }
+  }
   return 1
 }
