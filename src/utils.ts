@@ -1,14 +1,26 @@
 import moment from 'moment'
 
+const genNow = () => {
+    return moment().utcOffset('+0800')
+}
+
+export const genReminderTimeUsingString = (str: string, format: string) => {
+    return moment(str, format).utcOffset('+0800')
+}
+
+export const genReminderTimeUsingUnix = (unixtime: string) => {
+    return moment(unixtime).utcOffset('+0800')
+}
+
 export const genDateKeyboard = (taskId: string) => {
     const days = [
-        moment(),
-        moment().add(1, "d"),
-        moment().add(2, "d"),
-        moment().add(3, "d"),
-        moment().add(4, "d"),
-        moment().add(5, "d"),
-        moment().add(6, "d"),
+        genNow(),
+        genNow().add(1, "d"),
+        genNow().add(2, "d"),
+        genNow().add(3, "d"),
+        genNow().add(4, "d"),
+        genNow().add(5, "d"),
+        genNow().add(6, "d"),
     ]
     const keyboard = {
         inline_keyboard: [

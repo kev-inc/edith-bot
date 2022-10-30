@@ -1,6 +1,6 @@
 import { editTelegramMessage, editTelegramMessageWithMenu, sendTelegramMessage, sendTelegramMessageWithMenu } from "./telegram";
-import moment from "moment";
 import { ASK_FOR_TASK, MENU_KEYBOARD } from "./constants";
+import { genReminderTimeUsingUnix } from "./utils";
 
 let DB: any;
 
@@ -63,7 +63,7 @@ export const showTask = async (chatId: string, taskId: number) => {
   const task = tasks[taskId];
   let message = `/T${taskId}\n` + `*${task.title}*`;
   if ("reminderTime" in task) {
-    const reminder = moment(task["reminderTime"]);
+    const reminder = genReminderTimeUsingUnix(task["reminderTime"]);
     message += `\n⏰ ${reminder.fromNow()} \\(${reminder.format(
       "DD MMM, ha"
     )}\\)`;

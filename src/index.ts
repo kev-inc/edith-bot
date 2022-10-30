@@ -44,7 +44,7 @@ const handleCallbackQuery = async (payload: any) => {
     const [_, taskId, date, hour] = callback_data.split("_")
     if (hour) {
       await genReminderSetMessage(chatId, messageId, taskId, date, hour)
-      await showTask(chatId, taskId)
+      await genOpenTasksMessage(chatId)
     } else {
       await genAskReminderTimeMessage(chatId, messageId, taskId, date)
     }

@@ -1,8 +1,7 @@
-import moment from "moment";
 import { ASK_FOR_REMINDER } from "./constants";
 import { getAllTasks, setReminderTime } from "./tasks";
 import { editTelegramMessage, sendTelegramMessage } from "./telegram";
-import { genDateKeyboard, genTimeKeyboard } from "./utils";
+import { genDateKeyboard, genReminderTimeUsingString, genTimeKeyboard } from "./utils";
 
 export const askForReminder = async (chatId: string) => {
   await sendTelegramMessage(chatId, ASK_FOR_REMINDER, {force_reply: true})
@@ -25,7 +24,7 @@ export const genReminderSetMessage = async (
   date: string,
   hour: string
 ) => {
-    const reminder = moment(date + hour, "DDMMYYYYhh")
+    const reminder = genReminderTimeUsingString(date + hour, "DDMMYYYYhh")
     const timestamp = reminder.valueOf()
     const tasks = await getAllTasks(chatId)
     let message = `Reminder set for */T${taskId} ${tasks[taskId]['title']}*`
