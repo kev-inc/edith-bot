@@ -82,8 +82,6 @@ export const showTask = async (chatId: string, taskId: number) => {
   await sendTelegramMessage(chatId, message, keyboard);
 };
 
-
-
 export const genOpenTasksMessage = async (
   chatId: string,
   messageId: string | null = null
