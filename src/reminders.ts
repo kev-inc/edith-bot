@@ -27,7 +27,10 @@ export const genReminderSetMessage = async (
     const reminder = moment(date + hour, "DDMMYYYYhh")
     const timestamp = reminder.valueOf()
     const tasks = await getAllTasks(chatId)
-    const message = `Reminder set for /T${taskId} ${tasks[taskId]['title']}`
+    let message = `Reminder set for */T${taskId} ${tasks[taskId]['title']}*`
+    message += `\n⏰ ${reminder.fromNow()} \\(${reminder.format(
+      "DD MMM, ha"
+    )}\\)`;
     await setReminderTime(chatId, parseInt(taskId), timestamp)
     await editTelegramMessage(chatId, messageId, message);
 }
@@ -80,7 +83,7 @@ export const genAskReminderTimeMessage = async (
 
 export const genAskReminderDateMessage = async (
   chatId: string,
-  messageId: string,
+  messageId: string|null,
   taskId: string
 ) => {
   const message = "When would you like me to remind you?";
@@ -142,5 +145,9 @@ export const genAskReminderDateMessage = async (
       ],
     ],
   };
-  await editTelegramMessage(chatId, messageId, message, keyboard);
+  if (messageId == null) {
+    await sendTelegramMessage(chatId, message, keyboard);
+  } else {
+    await editTelegramMessage(chatId, messageId, message, keyboard);
+  }
 };

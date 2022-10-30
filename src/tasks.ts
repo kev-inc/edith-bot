@@ -22,6 +22,8 @@ export const createTask = async (chatId: string, title: string) => {
   const tasks = await getAllTasks(chatId);
   tasks.push({ title, status: "OPEN" });
   await DB.put(chatId, JSON.stringify(tasks));
+  await sendTelegramMessage(chatId, `*/T${tasks.length-1} ${title}* created`)
+  return tasks.length-1
 };
 
 export const clearTask = async (
@@ -74,7 +76,7 @@ export const showTask = async (chatId: string, taskId: number) => {
           : { text: "⏰ Set Reminder", callback_data: `setreminder_${taskId}` },
       ],
       [{ text: "✅ Close", callback_data: `close_${taskId}` }],
-      [{ text: "🏠 Back to tasks", callback_data: "tasks" }],
+      [{ text: "🏠 Back to tasks", callback_data: 'tasks' }],
     ],
   };
   await sendTelegramMessage(chatId, message, keyboard);
@@ -106,7 +108,7 @@ export const genOpenTasksMessage = async (
   if (messageId === null) {
     await sendTelegramMessageWithMenu(chatId, message, MENU_KEYBOARD);
   } else {
-    await editTelegramMessageWithMenu(chatId, messageId, message,  MENU_KEYBOARD);
+    await editTelegramMessage(chatId, messageId, message);
   }
 };
 

@@ -16,6 +16,7 @@ export const sendTelegramMessageWithMenu = async (chatId: string, message: strin
 export const editTelegramMessageWithMenu = async (chatId: string, messageId: string, message: string, menu: any) => {
   const searchParams = new URLSearchParams({
     chat_id: chatId,
+    message_id: messageId,
     text: message,
     parse_mode: "MarkdownV2",
     reply_markup: decodeURIComponent(JSON.stringify({keyboard: menu}))

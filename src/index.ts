@@ -54,7 +54,7 @@ export default {
         const [_, taskId, date, hour] = callback_data.split("_")
         if (hour) {
           await genReminderSetMessage(chatId, messageId, taskId, date, hour)
-          await showTask(chatId, taskId)
+          await genOpenTasksMessage(chatId)
         } else {
           await genAskReminderTimeMessage(chatId, messageId, taskId, date)
         }
@@ -63,8 +63,14 @@ export default {
       const chatId: string = payload.message.chat.id;
       const text: string = payload.message.text;
       if ('reply_to_message' in payload['message']) {
-        if (payload.message.reply_to_message.text === ASK_FOR_TASK) {
-          await createTask(chatId, text)
+        switch (payload.message.reply_to_message.text) {
+          case ASK_FOR_TASK: 
+          await createTask(chatId, text);
+          await genOpenTasksMessage(chatId);
+          break;
+          case ASK_FOR_REMINDER:
+          const taskId = await createTask(chatId, text);
+          await genAskReminderDateMessage(chatId, null, taskId.toString())
         }
       } else if (text.startsWith("/")) {
         if (text.startsWith("/T")) {
@@ -86,16 +92,16 @@ export default {
       } else if (text === NEW_REMINDER) {
         await askForReminder(chatId)
       } else {
-        if ("forward_sender_name" in payload.message) {
-          const senderName = payload.message.forward_sender_name;
-          await createTask(chatId, `(${senderName}) ${text}`);
-        } else if ("forward_from" in payload.message) {
-          const senderName = payload.message.forward_from.first_name;
-          await createTask(chatId, `(${senderName}) ${text}`);
-        } else {
-          // await createTask(chatId, text);
-        }
-        await genOpenTasksMessage(chatId);
+        // if ("forward_sender_name" in payload.message) {
+        //   const senderName = payload.message.forward_sender_name;
+        //   await createTask(chatId, `(${senderName}) ${text}`);
+        // } else if ("forward_from" in payload.message) {
+        //   const senderName = payload.message.forward_from.first_name;
+        //   await createTask(chatId, `(${senderName}) ${text}`);
+        // } else {
+        //   // await createTask(chatId, text);
+        // }
+        // await genOpenTasksMessage(chatId);
       }
     }
 
