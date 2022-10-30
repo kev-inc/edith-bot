@@ -65,9 +65,11 @@ export const genAskReminderDateMessage = async (
 export const sendReminders = async () => {
   const dbkeys = await getDBKeys()
   const chatIds = dbkeys.keys
+  console.log(chatIds)
   chatIds.map(async chatId => {
     const id = chatId.name
     const tasks = await getAllTasks(id)
+    console.log(id, tasks)
     tasks.map((task: any, index: number) => {
       const {title, status, reminderTime} = task
       const isOpen = status === "OPEN"
@@ -78,6 +80,5 @@ export const sendReminders = async () => {
       }
     })
   })
-  console.log(chatIds)
   return 1
 }
