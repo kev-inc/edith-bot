@@ -65,17 +65,16 @@ export const genAskReminderDateMessage = async (
 export const sendReminders = async () => {
   const dbkeys = await getDBKeys()
   const chatIds = dbkeys.keys
-  console.log(chatIds)
   for (const chatId of chatIds) {
     const id = chatId.name
     const tasks = await getAllTasks(id)
-    console.log(id, tasks)
     for (const [index, task] of tasks.entries()) {
       const {title, status, reminderTime} = task
       const isOpen = status === "OPEN"
       const hasPassed = hasReminderPassed(reminderTime)
-      console.log(title, hasPassed)
+      console.log(title, isOpen, hasPassed)
       if (isOpen && hasPassed) {
+        console.log("YESS")
         sendTelegramMessage(id, `🔔 /T${index} ${title} 🔔`, {inline_keyboard: REMINDER_KEYBOARD})
       }
     }
