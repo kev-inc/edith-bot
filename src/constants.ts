@@ -1,3 +1,9 @@
+export const COMMANDS = {
+    START: "/start",
+    HELP: "/help",
+    CLOSED_TASKS: "/closedtasks"
+}
+
 export const VIEW_TASKS = "✅ My Tasks"
 export const NEW_TASK = "🆕 Create New Task"
 export const NEW_REMINDER = "🔔 Create New Reminder"
