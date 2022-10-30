@@ -8,4 +8,4 @@ export const getFromDB = async (key: string) => await DB.get(key)
 
 export const putToDB = async (key: string, value: string) => await DB.put(key, JSON.stringify(value))
 
-export const getDBKeys = () => DB.list()
+export const getDBKeys = async () => await DB.list()
