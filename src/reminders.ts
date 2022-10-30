@@ -1,4 +1,5 @@
 import { ASK_FOR_REMINDER } from "./constants";
+import { getDBKeys } from "./db";
 import { getAllTasks, setReminderTime } from "./tasks";
 import { editTelegramMessage, sendTelegramMessage } from "./telegram";
 import { genDateKeyboard, genReminderTimeUsingString, genTimeKeyboard } from "./utils";
@@ -60,3 +61,9 @@ export const genAskReminderDateMessage = async (
     await editTelegramMessage(chatId, messageId, message, keyboard);
   }
 };
+
+export const sendReminders = async () => {
+  const chatIds = await getDBKeys()
+  console.log(chatIds)
+  return 1
+}

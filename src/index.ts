@@ -1,6 +1,7 @@
 import { ASK_FOR_REMINDER, ASK_FOR_TASK, COMMANDS, NEW_REMINDER, NEW_TASK, VIEW_TASKS } from "./constants";
+import { setDB } from "./db";
 import { genHelpMessage } from "./help";
-import { askForReminder, genAskReminderDateMessage, genAskReminderTimeMessage, genReminderClearMessage, genReminderSetMessage } from "./reminders";
+import { askForReminder, genAskReminderDateMessage, genAskReminderTimeMessage, genReminderClearMessage, genReminderSetMessage, sendReminders } from "./reminders";
 import {
   askForTask,
   clearReminder,
@@ -8,7 +9,6 @@ import {
   createTask,
   genClosedTasksMessage,
   genOpenTasksMessage,
-  setDB,
   showTask,
 } from "./tasks";
 import { setApiKey } from "./telegram";
@@ -106,7 +106,11 @@ export default {
     const {method} = request
     if (method === "GET") {
       const {pathname} = new URL(request.url)
-      return new Response(pathname)
+      if (pathname === "/sendReminders") {
+        const sent = await sendReminders()
+        return new Response(`${sent} reminders sent`)
+      }
+      return new Response("OK")
     }
 
     setApiKey(env.API_KEY);

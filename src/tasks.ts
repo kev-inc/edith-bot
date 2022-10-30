@@ -1,13 +1,10 @@
 import { editTelegramMessage, editTelegramMessageWithMenu, sendTelegramMessage, sendTelegramMessageWithMenu } from "./telegram";
 import { ASK_FOR_TASK, MENU_KEYBOARD } from "./constants";
 import { genReminderTimeUsingUnix } from "./utils";
-
-let DB: any;
-
-export const setDB = (db: any) => (DB = db);
+import { getFromDB, putToDB } from "./db";
 
 export const getAllTasks = async (chatId: string) => {
-  let data = await DB.get(chatId);
+  let data = await getFromDB(chatId)
   if (data === null) {
     return [];
   }
@@ -21,7 +18,7 @@ export const askForTask = async (chatId: string) => {
 export const createTask = async (chatId: string, title: string) => {
   const tasks = await getAllTasks(chatId);
   tasks.push({ title, status: "OPEN" });
-  await DB.put(chatId, JSON.stringify(tasks));
+  await putToDB(chatId, tasks)
   await sendTelegramMessage(chatId, `*/T${tasks.length-1} ${title}* created`)
   return tasks.length-1
 };
@@ -34,7 +31,7 @@ export const clearTask = async (
   const tasks = await getAllTasks(chatId);
   tasks[taskId]["status"] =
     tasks[taskId]["status"] === "OPEN" ? "CLOSED" : "OPEN";
-  await DB.put(chatId, JSON.stringify(tasks));
+  await putToDB(chatId, tasks)
   await editTelegramMessage(
     chatId,
     messageId,
@@ -49,13 +46,13 @@ export const setReminderTime = async (
 ) => {
   const tasks = await getAllTasks(chatId);
   tasks[taskId]["reminderTime"] = reminderTime;
-  await DB.put(chatId, JSON.stringify(tasks));
+  await putToDB(chatId, tasks)
 };
 
 export const clearReminder = async (chatId: string, taskId: number) => {
   const tasks = await getAllTasks(chatId);
   delete tasks[taskId]["reminderTime"];
-  await DB.put(chatId, JSON.stringify(tasks));
+  await putToDB(chatId, tasks)
 };
 
 export const showTask = async (chatId: string, taskId: number) => {
