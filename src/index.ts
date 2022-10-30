@@ -39,7 +39,7 @@ const handleCallbackQuery = async (payload: any) => {
     const [_, taskId] = callback_data.split("_")
     await clearReminder(chatId, taskId)
     await genReminderClearMessage(chatId, messageId, taskId)
-    await showTask(chatId, taskId)
+    await genOpenTasksMessage(chatId)
   } else if (callback_data.startsWith("R_")) {
     // eg R_123_01012022 or R_123_01012022_18
     const [_, taskId, date, hour] = callback_data.split("_")
