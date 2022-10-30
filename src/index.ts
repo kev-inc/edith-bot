@@ -26,16 +26,16 @@ const handleCallbackQuery = async (payload: any) => {
     await genOpenTasksMessage(chatId, messageId)
   } else if (callback_data.startsWith("close_")) {
     // eg close_123
-    const taskId = callback_data.split("_")[1]
+    const [_, taskId] = callback_data.split("_")
     await clearTask(chatId, messageId, parseInt(taskId))
     await genOpenTasksMessage(chatId);
   } else if (callback_data.startsWith("setreminder_")) {
     // eg setreminder_123
-    const taskId = callback_data.split("_")[1]
+    const [_, taskId] = callback_data.split("_")
     await genAskReminderDateMessage(chatId, messageId, taskId)
   } else if (callback_data.startsWith("clearreminder_")) {
     // eg clearreminder_123
-    const taskId = callback_data.split("_")[1]
+    const [_, taskId] = callback_data.split("_")
     await clearReminder(chatId, taskId)
     await genReminderClearMessage(chatId, messageId, taskId)
     await showTask(chatId, taskId)
