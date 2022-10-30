@@ -103,6 +103,12 @@ export default {
     env: Env,
     ctx: ExecutionContext
   ): Promise<Response> {
+    const {method} = request
+    if (method === "GET") {
+      const {pathname} = new URL(request.url)
+      return new Response(pathname)
+    }
+
     setApiKey(env.API_KEY);
     setDB(env.DB);
     setTimezone()
