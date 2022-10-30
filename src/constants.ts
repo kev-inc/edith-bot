@@ -11,6 +11,14 @@ export const NEW_REMINDER = "🔔 Create New Reminder"
 export const ASK_FOR_TASK = "Please enter the task"
 export const ASK_FOR_REMINDER = "Please enter the reminder"
 
+export const SNOOZE_REMINDER = "Snooze"
+export const DISMISS_REMINDER = "Dismiss"
+
+export const REMINDER_KEYBOARD = [
+    [SNOOZE_REMINDER],
+    [DISMISS_REMINDER]
+]
+
 export const MENU_KEYBOARD = [
     [VIEW_TASKS],
     [NEW_TASK],

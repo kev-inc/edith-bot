@@ -8,4 +8,4 @@ export const getFromDB = async (key: string) => await DB.get(key)
 
 export const putToDB = async (key: string, value: string) => await DB.put(key, JSON.stringify(value))
 
-export const getDBKeys = async () => await DB.list()
+export const getDBKeys = async (): Promise<KVNamespaceListResult<{name: string}>> => await DB.list()

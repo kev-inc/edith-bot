@@ -9,6 +9,12 @@ const genNow = () => {
     return moment()
 }
 
+export const hasReminderPassed = (timestamp: string) => {
+    const reminder = genReminderTimeUsingUnix(timestamp)
+    const now = genNow()
+    return (now >= reminder)  
+}
+
 export const genReminderTimeUsingString = (str: string, format: string) => {
     return moment(str, format)
 }

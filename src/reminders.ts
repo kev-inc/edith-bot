@@ -1,8 +1,8 @@
-import { ASK_FOR_REMINDER } from "./constants";
-import { getDBKeys } from "./db";
+import { ASK_FOR_REMINDER, REMINDER_KEYBOARD } from "./constants";
+import { getDBKeys, getFromDB } from "./db";
 import { getAllTasks, setReminderTime } from "./tasks";
 import { editTelegramMessage, sendTelegramMessage } from "./telegram";
-import { genDateKeyboard, genReminderTimeUsingString, genTimeKeyboard } from "./utils";
+import { genDateKeyboard, genReminderTimeUsingString, genTimeKeyboard, hasReminderPassed } from "./utils";
 
 export const askForReminder = async (chatId: string) => {
   await sendTelegramMessage(chatId, ASK_FOR_REMINDER, {force_reply: true})
@@ -63,7 +63,20 @@ export const genAskReminderDateMessage = async (
 };
 
 export const sendReminders = async () => {
-  const chatIds = await getDBKeys()
+  const dbkeys = await getDBKeys()
+  const chatIds = dbkeys.keys
+  chatIds.map(async chatId => {
+    const id = chatId.name
+    const tasks = await getAllTasks(id)
+    tasks.map((task: any, index: number) => {
+      const {title, status, reminderTime} = task
+      const isOpen = status === "OPEN"
+      const hasPassed = hasReminderPassed(reminderTime)
+      if (isOpen && hasPassed) {
+        sendTelegramMessage(id, `🔔 /T${index} ${title} 🔔`, {inline_keyboard: REMINDER_KEYBOARD})
+      }
+    })
+  })
   console.log(chatIds)
   return 1
 }
