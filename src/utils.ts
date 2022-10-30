@@ -1,5 +1,6 @@
 import moment from 'moment'
 import 'moment-timezone'
+import { DISMISS_REMINDER, SNOOZE_REMINDER } from './constants'
 
 export const setTimezone = () => {
     moment.tz.setDefault('Asia/Singapore')
@@ -24,6 +25,16 @@ export const genReminderTimeUsingString = (str: string, format: string) => {
 
 export const genReminderTimeUsingUnix = (unixtime: string) => {
     return moment(unixtime)
+}
+
+export const genReminderKeyboard = (taskId: string) => {
+    const keyboard = {
+        inline_keyboard: [
+            // [{text: SNOOZE_REMINDER, callback_data: 0}],
+            [{text: DISMISS_REMINDER, callback_data: `clearreminder_${taskId}`}],
+        ]
+    }
+    return keyboard
 }
 
 export const genDateKeyboard = (taskId: string) => {

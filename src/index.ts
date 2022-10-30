@@ -110,9 +110,9 @@ export default {
     const {method} = request
     if (method === "GET") {
       const {pathname} = new URL(request.url)
-      if (pathname === "/sendReminders") {
+      if (pathname === "/sendreminders") {
         const sent = await sendReminders()
-        return new Response(`${sent} reminders sent`)
+        return new Response("Reminders sent")
       }
       return new Response("OK")
     }
