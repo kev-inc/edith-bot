@@ -66,11 +66,11 @@ export const sendReminders = async () => {
   const dbkeys = await getDBKeys()
   const chatIds = dbkeys.keys
   console.log(chatIds)
-  chatIds.map(async chatId => {
+  chatIds.forEach(async chatId => {
     const id = chatId.name
     const tasks = await getAllTasks(id)
     console.log(id, tasks)
-    tasks.map((task: any, index: number) => {
+    tasks.forEach((task: any, index: number) => {
       const {title, status, reminderTime} = task
       const isOpen = status === "OPEN"
       const hasPassed = hasReminderPassed(reminderTime)
