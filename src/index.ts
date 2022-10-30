@@ -103,6 +103,10 @@ export default {
     env: Env,
     ctx: ExecutionContext
   ): Promise<Response> {
+    setDB(env.DB);
+    setApiKey(env.API_KEY);
+    setTimezone()
+    
     const {method} = request
     if (method === "GET") {
       const {pathname} = new URL(request.url)
@@ -113,9 +117,6 @@ export default {
       return new Response("OK")
     }
 
-    setApiKey(env.API_KEY);
-    setDB(env.DB);
-    setTimezone()
     const payload: any = await request.json();
     console.log(payload);
     const { message, callback_query } = payload
