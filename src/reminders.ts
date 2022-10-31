@@ -74,7 +74,7 @@ export const sendReminders = async () => {
       const hasPassed = hasReminderPassed(reminderTime)
       console.log(title, isOpen, hasPassed)
       if (isOpen && hasPassed) {
-        await sendTelegramMessage(id, `🔔 /T${index} ${title} 🔔`, genReminderKeyboard(index))
+        await sendTelegramMessage(id, `🔔 /T${index} ${title} 🔔`)
       }
     }
   }
