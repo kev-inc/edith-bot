@@ -2,7 +2,7 @@ import { ASK_FOR_REMINDER, REMINDER_KEYBOARD } from "./constants";
 import { getDBKeys, getFromDB } from "./db";
 import { getAllTasks, setReminderTime } from "./tasks";
 import { editTelegramMessage, sendTelegramMessage } from "./telegram";
-import { genDateKeyboard, genReminderKeyboard, genReminderTimeUsingString, genTimeKeyboard, hasReminderPassed } from "./utils";
+import { genNow, genDateKeyboard, genReminderTimeUsingString, genTimeKeyboard, hasReminderPassed } from "./utils";
 
 export const askForReminder = async (chatId: string) => {
   await sendTelegramMessage(chatId, ASK_FOR_REMINDER, {force_reply: true})
@@ -68,14 +68,20 @@ export const sendReminders = async () => {
   for (const chatId of chatIds) {
     const id = chatId.name
     const tasks = await getAllTasks(id)
+    let message = "";
     for (const [index, task] of tasks.entries()) {
       const {title, status, reminderTime} = task
       const isOpen = status === "OPEN"
       const hasPassed = hasReminderPassed(reminderTime)
       console.log(title, isOpen, hasPassed)
       if (isOpen && hasPassed) {
-        await sendTelegramMessage(id, `🔔 /T${index} ${title} 🔔`)
+        message +=  `/T${index} ${title}\n`
+        
       }
+    }
+    if (message.length > 0) {
+      message = `🔔 Reminder (${genNow().format("ha")}) 🔔\n\n` + message
+      await sendTelegramMessage(id, message)
     }
   }
   return 1

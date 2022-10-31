@@ -6,7 +6,7 @@ export const setTimezone = () => {
     moment.tz.setDefault('Asia/Singapore')
 }
 
-const genNow = () => {
+export const genNow = () => {
     return moment()
 }
 
