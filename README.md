@@ -12,7 +12,7 @@ https://api.telegram.org/bot<api_key>/setWebhook?url=https://edith-bot.kevc.work
 >**3 open tasks**<br><br>
 /T121 - Print tickets<br>
 /T122 - Wash car<br>
-/T123 - Buy bread
+/T123 - Buy breadd
 
 `/closedtasks`
 >**3 open tasks**<br><br>
