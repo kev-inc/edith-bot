@@ -13,10 +13,12 @@ import {
 } from "./tasks";
 import { setApiKey } from "./telegram";
 import { setTimezone } from "./utils";
+import { genVM, setGHKey } from "./vm";
 
 export interface Env {
   DB: KVNamespace;
   API_KEY: string;
+  GH_KEY: string;
 }
 
 const handleCallbackQuery = async (payload: any) => {
@@ -70,6 +72,8 @@ const handleMessage = async (payload: any) => {
     case COMMANDS.CLOSED_TASKS:
       await genClosedTasksMessage(chatId);
       break
+    case COMMANDS.START_VM:
+      await genVM(chatId)
     default:
       if (text && text.startsWith("/T")) {
         const taskNumber = text.split(" ")[0];
@@ -105,13 +109,14 @@ export default {
   ): Promise<Response> {
     setDB(env.DB);
     setApiKey(env.API_KEY);
+    setGHKey(env.GH_KEY)
     setTimezone()
 
     const {method} = request
     if (method === "GET") {
       const {pathname} = new URL(request.url)
       if (pathname === "/sendreminders") {
-        const sent = await sendReminders()
+        await sendReminders()
         return new Response("Reminders sent")
       }
       return new Response("OK")

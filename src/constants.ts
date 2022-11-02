@@ -1,7 +1,8 @@
 export const COMMANDS = {
     START: "/start",
     HELP: "/help",
-    CLOSED_TASKS: "/closedtasks"
+    CLOSED_TASKS: "/closedtasks",
+    START_VM: "/start_vm"
 }
 
 export const VIEW_TASKS = "✅ My Tasks"
