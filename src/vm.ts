@@ -13,9 +13,11 @@ export const genVM = async (chatId: string) => {
         headers: {
             'content-type': 'application/vnd.github+json',
             'Accept': 'application/vnd.github+json',
-            'Authorization': `Bearer ${GH_KEY}`
+            'Authorization': `Bearer ${GH_KEY}`,
+            'user-agent': "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36"
+
         },
         body: JSON.stringify({"ref": "main"})
     })
-    await sendTelegramMessage(chatId, `Status is ${resp.status}\n\nPlease check the status here: https://github.com/btxkev3/Windows2019RDP-US-MMDYT/actions`)
+    await sendTelegramMessage(chatId, `Status is ${resp.status}\n\nPlease check the status here at ${decodeURIComponent("https://github.com/btxkev3/Windows2019RDP-US-MMDYT/actions")}`)
 }
