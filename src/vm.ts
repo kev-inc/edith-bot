@@ -18,5 +18,5 @@ export const genVM = async (chatId: string) => {
         },
         body: JSON.stringify({"ref": "main"})
     })
-    await sendTelegramMessage(chatId, `VM is starting ... ${resp.status}\n\nPlease check the status [here](${"https://github.com/btxkev3/Windows2019RDP-US-MMDYT/actions".replaceAll(".", "\\.").replaceAll("-", "\\-")})`)
+    await sendTelegramMessage(chatId, `VM is starting ${resp.status}\n\nPlease check the status [here](${"https://github.com/btxkev3/Windows2019RDP-US-MMDYT/actions".replaceAll(".", "\\.").replaceAll("-", "\\-")})`)
 }
