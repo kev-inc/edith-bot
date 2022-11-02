@@ -7,7 +7,6 @@ export const setGHKey = (key: string) => {
 }
 
 export const genVM = async (chatId: string) => {
-    console.log(GH_KEY)
     const resp = await fetch('https://api.github.com/repos/btxkev3/Windows2019RDP-US-MMDYT/actions/workflows/RDP-US.yml/dispatches', {
         method: 'POST', 
         headers: {
@@ -19,5 +18,5 @@ export const genVM = async (chatId: string) => {
         },
         body: JSON.stringify({"ref": "main"})
     })
-    await sendTelegramMessage(chatId, `Status is ${resp.status}\n\nPlease check the status here at ${decodeURIComponent("https://github.com/btxkev3/Windows2019RDP-US-MMDYT/actions")}`)
+    await sendTelegramMessage(chatId, `Status is ${resp.status}\n\nPlease check the status here at ${"https://github.com/btxkev3/Windows2019RDP-US-MMDYT/actions".replaceAll(".", "\\.")}`)
 }
