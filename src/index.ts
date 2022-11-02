@@ -124,9 +124,8 @@ export default {
         if (message) {
           await sendTelegramMessage(env.ADMIN_ID, message)
         }
-      } else if (pathname === "/start_vm") {
-        await genVM(env.ADMIN_ID)
       }
+      
       return new Response("OK")
     }
 
