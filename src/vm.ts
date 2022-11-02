@@ -15,5 +15,6 @@ export const genVM = async (chatId: string) => {
         },
         body: JSON.stringify({"ref": "main"})
     })
+    console.log(resp.body)
     await sendTelegramMessage(chatId, `Status is ${resp.status}`)
 }
