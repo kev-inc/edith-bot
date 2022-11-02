@@ -9,3 +9,5 @@ kv_namespaces = [
 
 [vars]
 # - API_KEY
+# - GH_KEY
+# - ADMIN_ID
