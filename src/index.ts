@@ -11,7 +11,7 @@ import {
   genOpenTasksMessage,
   showTask,
 } from "./tasks";
-import { setApiKey } from "./telegram";
+import { sendTelegramMessage, setApiKey } from "./telegram";
 import { setTimezone } from "./utils";
 import { genVM, setGHKey } from "./vm";
 
@@ -19,6 +19,7 @@ export interface Env {
   DB: KVNamespace;
   API_KEY: string;
   GH_KEY: string;
+  ADMIN_ID: string;
 }
 
 const handleCallbackQuery = async (payload: any) => {
@@ -114,10 +115,15 @@ export default {
 
     const {method} = request
     if (method === "GET") {
-      const {pathname} = new URL(request.url)
+      const {pathname, searchParams} = new URL(request.url)
       if (pathname === "/sendreminders") {
         await sendReminders()
         return new Response("Reminders sent")
+      } else if (pathname === "/sendsecretmessage") {
+        const message = searchParams.get("message")
+        if (message) {
+          await sendTelegramMessage(env.ADMIN_ID, message)
+        }
       }
       return new Response("OK")
     }
