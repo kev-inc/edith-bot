@@ -119,7 +119,7 @@ export default {
       if (pathname === "/sendreminders") {
         await sendReminders()
         return new Response("Reminders sent")
-      } else if (pathname === "/sendsecretmessage") {
+      } else if (pathname.startsWith("/sendsecretmessage")) {
         const message = searchParams.get("message")
         if (message) {
           await sendTelegramMessage(env.ADMIN_ID, message)
