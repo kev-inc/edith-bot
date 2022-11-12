@@ -11,25 +11,29 @@ const genTelegramEditUrl = (params: any) => {
 }
 
 export const sendTelegramMessageWithMenu = async (chatId: string, message: string, menu: any) => {
-  const params = genTelegramPayload(chatId, message, null, {keyboard: menu})
+  const formattedMessage = formatMessage(message)
+  const params = genTelegramPayload(chatId, formattedMessage, null, { keyboard: menu })
   const url = genTelegramSendUrl(params)
   return await sendMessage(url);
 }
 
 export const editTelegramMessageWithMenu = async (chatId: string, messageId: string, message: string, menu: any) => {
-  const params = genTelegramPayload(chatId, message, messageId, {keyboard: menu})
+  const formattedMessage = formatMessage(message)
+  const params = genTelegramPayload(chatId, formattedMessage, messageId, { keyboard: menu })
   const url = genTelegramEditUrl(params)
   return await sendMessage(url);
 }
 
 export const sendTelegramMessage = async (chatId: string, message: string, markup?: any) => {
-  const params = genTelegramPayload(chatId, message, null, markup)
+  const formattedMessage = formatMessage(message)
+  const params = genTelegramPayload(chatId, formattedMessage, null, markup)
   const url = genTelegramSendUrl(params);
   return await sendMessage(url);
 };
 
 export const editTelegramMessage = async (chatId: string, messageId: string, message: string, markup?: any) => {
-  const params = genTelegramPayload(chatId, message, messageId, markup)
+  const formattedMessage = formatMessage(message)
+  const params = genTelegramPayload(chatId, formattedMessage, messageId, markup)
   const url = genTelegramEditUrl(params);
   return await sendMessage(url)
 }
@@ -37,7 +41,7 @@ export const editTelegramMessage = async (chatId: string, messageId: string, mes
 const genTelegramPayload = (
   chatId: string,
   text: string,
-  messageId: string|null,
+  messageId: string | null,
   replyMarkup: any
 ) => {
   const params = new URLSearchParams({
@@ -56,6 +60,26 @@ const genTelegramPayload = (
 
 export const sendMessage = async (url: string) => {
   const data = await fetch(url).then((resp) => resp.json());
-  console.log({url: url, resp: data})
+  console.log({ url: url, resp: data })
   return data;
+}
+
+const formatMessage = (message: string) => {
+  return message
+    .replaceAll("_", "\\_")
+    .replaceAll("[", "\\[")
+    .replaceAll("]", "\\]")
+    .replaceAll("(", "\\(")
+    .replaceAll(")", "\\)")
+    .replaceAll("~", "\\~")
+    .replaceAll(">", "\\>")
+    .replaceAll("#", "\\#")
+    .replaceAll("+", "\\+")
+    .replaceAll("-", "\\-")
+    .replaceAll("=", "\\=")
+    .replaceAll("|", "\\|")
+    .replaceAll("{", "\\}")
+    .replaceAll("{", "\\}")
+    .replaceAll(".", "\\.")
+    .replaceAll("!", "\\!")
 }
