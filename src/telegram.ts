@@ -78,6 +78,8 @@ const formatMessage = (message: string) => {
     .replaceAll("|", "\\|")
     .replaceAll("{", "\\}")
     .replaceAll("{", "\\}")
+    .replaceAll("(", "\\(")
+    .replaceAll(")", "\\)")
     .replaceAll(".", "\\.")
     .replaceAll("!", "\\!")
 }
