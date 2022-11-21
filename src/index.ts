@@ -133,7 +133,7 @@ export default {
     console.log(payload);
     const { message, callback_query, tunnels } = payload
     if (tunnels) {
-      await sendTelegramMessage(env.ADMIN_ID, `RDP running at ${tunnels[0]['public_url'].replaceAll(".", "\\.")}\nAdministrator:Ghadmin123`)
+      await sendTelegramMessage(env.ADMIN_ID, `RDP running at ${tunnels[0]['public_url']}\nAdministrator:Ghadmin123`)
     }
     if (callback_query) {
       await handleCallbackQuery(payload)
