@@ -61,9 +61,9 @@ export const showTask = async (chatId: string, taskId: number) => {
   let message = `/T${taskId}\n` + `*${task.title}*`;
   if ("reminderTime" in task) {
     const reminder = genReminderTimeUsingUnix(task["reminderTime"]);
-    message += `\n⏰ ${reminder.fromNow()} \\(${reminder.format(
+    message += `\n⏰ ${reminder.fromNow()} (${reminder.format(
       "DD MMM, ha"
-    )}\\)`;
+    )})`;
   }
   const keyboard = {
     inline_keyboard: [
