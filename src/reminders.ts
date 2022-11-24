@@ -80,7 +80,7 @@ export const sendReminders = async () => {
       }
     }
     if (message.length > 0) {
-      message = `🔔 Reminder \\(${genNow().format("ha")}\\) 🔔\n\n` + message
+      message = `🔔 Reminder (${genNow().format("ha")}) 🔔\n\n` + message
       await sendTelegramMessage(id, message)
     }
   }
