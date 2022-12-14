@@ -23,7 +23,7 @@ export interface Env {
 }
 
 const handleCallbackQuery = async (payload: any) => {
-  const chatId: string = payload.callback_query.message.chat.id
+  const chatId: string = payload.callback_query.message.from.id
   const messageId: string = payload.callback_query.message.message_id
   const callback_data = payload.callback_query.data
   if (callback_data === "tasks") {
@@ -56,7 +56,7 @@ const handleCallbackQuery = async (payload: any) => {
 }
 
 const handleMessage = async (payload: any) => {
-  const chatId: string = payload.message.chat.id;
+  const chatId: string = payload.message.from.id;
   const text: string = payload.message.text;
 
   switch (text) {
@@ -86,7 +86,7 @@ const handleMessage = async (payload: any) => {
 }
 
 const handleReplyToMessage = async (payload: any) => {
-  const chatId: string = payload.message.chat.id;
+  const chatId: string = payload.message.from.id;
   const text: string = payload.message.text;
   const replyingText: string = payload.message.reply_to_message.text
 
